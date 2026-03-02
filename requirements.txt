@@ -1,0 +1,27 @@
+# Lab Management & Analytics System
+# Requirements
+
+# Core Framework
+streamlit>=1.28.0
+
+# Database
+# SQLite is built-in with Python
+
+# Security
+bcrypt>=4.0.1
+
+# Data Processing
+pandas>=2.0.0
+openpyxl>=3.1.2
+
+# PDF Generation
+reportlab>=4.0.0
+
+# Utilities
+python-dateutil>=2.8.2
+
+# Cloud database (PostgreSQL)
+psycopg2-binary>=2.9.9
+
+# For deployment (optional)
+# gunicorn>=21.0.0

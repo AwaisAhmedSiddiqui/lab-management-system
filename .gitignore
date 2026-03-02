@@ -1,0 +1,21 @@
+# Python cache
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+# Virtual envs
+.venv/
+venv/
+env/
+
+# Streamlit & editor
+.streamlit/secrets.toml
+.vscode/
+
+# Local databases and backups
+*.db
+backup_*.db
+
+# Logs
+*.log
