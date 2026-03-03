@@ -11,6 +11,7 @@ import uuid
 from datetime import datetime
 
 DATABASE_PATH = "lab_management.db"
+_FORCE_SQLITE_FALLBACK = False
 
 PERFORMA_TABLES = {
     "data_retrieval_reports",
@@ -43,6 +44,9 @@ def _get_database_url():
 
 
 def _is_postgres():
+    global _FORCE_SQLITE_FALLBACK
+    if _FORCE_SQLITE_FALLBACK:
+        return False
     url = _get_database_url()
     return bool(url and url.startswith(("postgres://", "postgresql://")))
 
@@ -65,10 +69,16 @@ def _safe_table_name(table_name):
 
 def get_connection():
     """Get database connection."""
-    if _is_postgres():
-        import psycopg2
+    global _FORCE_SQLITE_FALLBACK
 
-        return psycopg2.connect(_get_database_url())
+    if _is_postgres():
+        try:
+            import psycopg2
+
+            return psycopg2.connect(_get_database_url())
+        except Exception as exc:
+            _FORCE_SQLITE_FALLBACK = True
+            print(f"[database] PostgreSQL unavailable, falling back to SQLite. Reason: {exc}")
 
     conn = sqlite3.connect(DATABASE_PATH, check_same_thread=False)
     conn.row_factory = sqlite3.Row
